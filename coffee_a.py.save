@@ -1,0 +1,76 @@
+import serialimport serial                                                                                                                                                                                                                        
+import os                                                                                                                                                                                                                            
+import time                                                                                                                                                                                                                          
+import json, httplib                                                                                                                                                                                                                 
+def get_serial_data():                                                                                                                                                                                                               
+        serial_data = ser.readline().strip('\r\n')                                                                                                                                                                                   
+        return serial_data                                                                                                                                                                                                           
+                                                                                                                                                                                                                                     
+def post_data(val):                                                                                                                                                                                                                  
+        print "Sensor Val: " + val                                                                                                                                                                                                   
+        t = "30"                                                                                                                                                                                                                     
+        if val  > t:                                                                                                                                                                                                                 
+                print "--detected!--"                                                                                                                                                                                                
+                ser.write("1")                                                                                                                                                                                                       
+                time.sleep(1)                                                                                                                                                                                                        
+                ser.write("0")                                                                                                                                                                                                       
+                time.sleep(1)                                                                                                                                                                                                        
+                command()                                                                                                                                                                                                            
+                                                                                                                                                                                                                                     
+        else:                                                                                                                                                                                                                        
+                print ".."                                                                                                                                                                                                           
+                                                                                                                                                                                                                                     
+def command():                                                                                                                                                                                                                       
+        #os.system("curl -H 'Content-Type: application/json' -H 'Cache-Control: no-cache' -d @coffee_json.json 'https://api.smartno.de:8443/services/honestbee'")                                                                    
+        print "Request made"                                                                                                                                                                                                         
+        time.sleep(2)                                                                                                                                                                                                                
+                                                                                                                                                                                                                                     
+def main():                                                                                                                                                                                                                          
+        while True:                                                                                                                                                                                                                  
+                sensor_val = get_serial_data()                                                                                                                                                                                       
+                post_data(sensor_val)                                                                                                                                                                                                
+                                                                                                                                                                                                                                     
+if __name__ == "__main__":                                                                                                                                                                                                           
+        SERIAL_PORT = "/dev/ttyS0"                                                                                                                                                                                                   
+        ser = serial.Serial(SERIAL_PORT, 9600)                                                                                                                                                                                       
+        ser.timeout = None                                                                                                                                                                                                           
+                                                                                                                                                                                                                                     
+        main()   
+import os
+import time
+import json, httplib
+def get_serial_data():
+        serial_data = ser.readline().strip('\r\n')
+        return serial_data
+
+def post_data(val):
+        print "Sensor Val: " + val
+        t = "30"
+        if val  > t:
+                print "--detected!--"
+                ser.write("1")
+                time.sleep(1)
+                ser.write("0")
+                time.sleep(1)
+                command()
+
+        else:
+                print ".."
+
+def command():
+        os.system("curl -H 'Content-Type: application/json' -H 'Cache-Control:
+        print "Request made"
+        time.sleep(2)
+
+def main():
+        while True:
+                sensor_val = get_serial_data()
+                post_data(sensor_val)
+
+if __name__ == "__main__":
+        SERIAL_PORT = "/dev/ttyS0"
+        ser = serial.Serial(SERIAL_PORT, 9600)
+        ser.timeout = None
+
+        main()
+
